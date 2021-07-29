@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.rikkei.entity.RegistrationUserToken;
 
 public interface IRegistrationUserTokenRepository extends JpaRepository<RegistrationUserToken, Integer> {
+	
 	public RegistrationUserToken findByToken(String token);
 
 	public boolean existsByToken(String token);

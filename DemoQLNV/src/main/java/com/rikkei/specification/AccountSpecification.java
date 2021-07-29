@@ -10,9 +10,13 @@ import org.springframework.data.jpa.domain.Specification;
 import com.rikkei.entity.Account;
 
 public class AccountSpecification implements Specification<Account> {
+	
 	private static final long serialVersionUID = 1L;
+	
 	private String field;
+	
 	private String operator;
+	
 	private Object value;
 
 	public AccountSpecification(String field, String operator, Object value) {

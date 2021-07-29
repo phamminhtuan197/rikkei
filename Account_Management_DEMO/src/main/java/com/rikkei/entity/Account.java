@@ -26,49 +26,29 @@ import org.hibernate.annotations.CreationTimestamp;
 public class Account implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
 	@Column(name = "AccountID")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private short accountID;
-	
 	@Column(name = "Email", length = 50, nullable = false, unique = true)
 	private String email;
-	
 	@Column(name = "Username", length = 50, nullable = false, unique = true)
 	private String userName;
-	
 	@Column(name = "FullName", length = 50, nullable = false)
 	private String fullName;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DepartmentID", nullable = false)
 	@Cascade(value = { CascadeType.SAVE_UPDATE })
 	private Department department;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PositionID", nullable = false)
 	@Cascade(value = { CascadeType.SAVE_UPDATE })
 	private Position position;
-	
 	@Column(name = "CreateDate")
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
 	private Date createDate;
 
-	@Column(name = "Password", length = 800)
-	private String password;
-
-	@Enumerated(EnumType.ORDINAL)
-	@Column(name = "`status`", nullable = false)
-	private AccountStatus status = AccountStatus.NOT_ACTIVE;
-
-	@Column(name = "PathImage", length = 50, unique = true, updatable = true)
-	private String PathImage;
-
-	@Column(name = "`Role`", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private AccountRole role = AccountRole.User;
 
 	public Account(String email, String userName, String fullName, Department department, Position position) {
 		super();
@@ -135,37 +115,6 @@ public class Account implements Serializable {
 		this.createDate = createDate;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public AccountStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(AccountStatus status) {
-		this.status = status;
-	}
-
-	public String getPathImage() {
-		return PathImage;
-	}
-
-	public void setPathImage(String pathImage) {
-		PathImage = pathImage;
-	}
-
-	public AccountRole getRole() {
-		return role;
-	}
-
-	public void setRole(AccountRole role) {
-		this.role = role;
-	}
 
 	public Account() {
 		super();

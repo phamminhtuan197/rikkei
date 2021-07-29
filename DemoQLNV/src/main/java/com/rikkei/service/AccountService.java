@@ -133,7 +133,8 @@ public class AccountService implements IAccountService {
 			throw new UsernameNotFoundException(userName);
 		}
 
-		return new User(account.getUserName(), account.getPassword(), AuthorityUtils.createAuthorityList("user"));
+		return new User(account.getUserName(), account.getPassword(),
+				AuthorityUtils.createAuthorityList(account.getRole().toString()));
 	}
 
 	@Override
@@ -182,6 +183,7 @@ public class AccountService implements IAccountService {
 
 		registrationUserTokenRepository.save(token);
 	}
+
 //Gui mail xac nhan
 	private void sendConfirmUserRegistrationViaEmail(String email) {
 		eventPublisher.publishEvent(new OnSendRegistrationUserConfirmViaEmailEvent(email));

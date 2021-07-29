@@ -26,11 +26,10 @@ public class Position implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private short positionID;
-	
 	@Column(name = "PositionName", nullable = false, unique = true)
 	@Enumerated(EnumType.STRING)
 	private PositionName positionName;
-	
+//	@OneToMany(mappedBy = "position")
 	@OneToMany(mappedBy = "position", fetch = FetchType.EAGER)
 	@Cascade(value = { CascadeType.REMOVE, CascadeType.SAVE_UPDATE })
 	private List<Account> accounts;
