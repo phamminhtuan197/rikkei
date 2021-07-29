@@ -1,5 +1,7 @@
 package com.rikkei.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,34 +32,34 @@ public class AccountController {
 	@Autowired
 	private IAccountService accountService;
 
-//	@GetMapping()
-//	public ResponseEntity<?> getAllAccount() {
-//		List<Account> entities = accountService.getAllAccount();
-//		List<AccountDto> dtos = new ArrayList<>();
-//		for (Account account : entities) {
-//			AccountDto dto = new AccountDto(account.getAccountID(), account.getEmail(), account.getUserName(),
-//					account.getFullName(), account.getDepartment().getDepartmentName(),
-//					account.getPosition().getPositionName().toString(), account.getCreateDate());
-//			dtos.add(dto);
-//		}
-//		return new ResponseEntity<List<AccountDto>>(dtos, HttpStatus.OK);
-//	}
 	@GetMapping()
-	public ResponseEntity<?> getAllAccount(Pageable pageable, @RequestParam(required = false) String search) {
-		Page<Account> entities = accountService.getAllAccount(pageable, search);
-		Page<AccountDto> dtoPage = entities.map(new Function<Account, AccountDto>() {
-			@Override
-			public AccountDto apply(Account account) {
-				AccountDto dto = new AccountDto(account.getAccountID(), account.getEmail(), account.getUserName(),
-						account.getFullName(), account.getDepartment().getDepartmentName(),
-						account.getPosition().getPositionName().toString(), account.getCreateDate());
-				return dto;
-			}
-		});
-		return new ResponseEntity<Page<AccountDto>>(dtoPage, HttpStatus.OK);
+	public ResponseEntity<?> getAllAccount() {
+		List<Account> entities = accountService.getAllAccount();
+		List<AccountDto> dtos = new ArrayList<>();
+		for (Account account : entities) {
+			AccountDto dto = new AccountDto(account.getAccountID(), account.getEmail(), account.getUserName(),
+					account.getFullName(), account.getDepartment().getDepartmentName(),
+					account.getPosition().getPositionName().toString(), account.getCreateDate());
+			dtos.add(dto);
+		}
+		return new ResponseEntity<List<AccountDto>>(dtos, HttpStatus.OK);
 	}
+//	@GetMapping()
+//	public ResponseEntity<?> getAllAccount(Pageable pageable, @RequestParam(required = false) String search) {
+//		Page<Account> entities = accountService.getAllAccount(pageable, search);
+//		Page<AccountDto> dtoPage = entities.map(new Function<Account, AccountDto>() {
+//			@Override
+//			public AccountDto apply(Account account) {
+//				AccountDto dto = new AccountDto(account.getAccountID(), account.getEmail(), account.getUserName(),
+//						account.getFullName(), account.getDepartment().getDepartmentName(),
+//						account.getPosition().getPositionName().toString(), account.getCreateDate());
+//				return dto;
+//			}
+//		});
+//		return new ResponseEntity<Page<AccountDto>>(dtoPage, HttpStatus.OK);
+//	}
 
-	@GetMapping(value = "/accountID/{accountID}")
+	@GetMapping(value = "/{accountID}")
 	public ResponseEntity<?> getAccountByID(@PathVariable short accountID) {
 		Account account = accountService.getAccountByID(accountID);
 		AccountDto dto = new AccountDto(account.getAccountID(), account.getEmail(), account.getUserName(),
@@ -66,14 +68,14 @@ public class AccountController {
 		return new ResponseEntity<AccountDto>(dto, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/userName/{userName}")
-	public ResponseEntity<?> getAccountByUserName(@PathVariable String userName) {
-		Account account = accountService.getAccountByUserName(userName);
-		AccountDto dto = new AccountDto(account.getAccountID(), account.getEmail(), account.getUserName(),
-				account.getFullName(), account.getDepartment().getDepartmentName(),
-				account.getPosition().getPositionName().toString(), account.getCreateDate());
-		return new ResponseEntity<AccountDto>(dto, HttpStatus.OK);
-	}
+//	@GetMapping(value = "/userName/{userName}")
+//	public ResponseEntity<?> getAccountByUserName(@PathVariable String userName) {
+//		Account account = accountService.getAccountByUserName(userName);
+//		AccountDto dto = new AccountDto(account.getAccountID(), account.getEmail(), account.getUserName(),
+//				account.getFullName(), account.getDepartment().getDepartmentName(),
+//				account.getPosition().getPositionName().toString(), account.getCreateDate());
+//		return new ResponseEntity<AccountDto>(dto, HttpStatus.OK);
+//	}
 
 	@PostMapping()
 	public ResponseEntity<?> createAccount(@RequestBody AccountForm accountFrom) {
@@ -96,35 +98,35 @@ public class AccountController {
 //		return new ResponseEntity<List<Object[]>>(accountService.getCountAccountByMonthOfYearNow(), HttpStatus.OK);
 //	}
 
-	@PutMapping(value = "/accountID/{accountID}")
+	@PutMapping(value = "/{accountID}")
 	public ResponseEntity<?> updateAccount(@PathVariable(name = "accountID") short accountID,
 			@RequestBody AccountForm accountForm) {
 		accountService.updateAccount(accountID, accountForm);
 		return new ResponseEntity<String>("Update success", HttpStatus.OK);
 	}
 
-	@DeleteMapping(value = "/accountID/{accountID}")
+	@DeleteMapping(value = "/{accountID}")
 	public ResponseEntity<?> deleteAccount(@PathVariable(name = "accountID") short accountID) {
 		accountService.deleteAccount(accountID);
 		return new ResponseEntity<String>("Delete success", HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/email/{email}")
-	public ResponseEntity<?> getAccountByEmail(@PathVariable String email) {
-		Account account = accountService.getAccountByEmail(email);
-		AccountDto dto = new AccountDto(account.getAccountID(), account.getEmail(), account.getUserName(),
-				account.getFullName(), account.getDepartment().getDepartmentName(),
-				account.getPosition().getPositionName().toString(), account.getCreateDate());
-		return new ResponseEntity<AccountDto>(dto, HttpStatus.OK);
-	}
-
-	@GetMapping(value = "/UserNameExists/{userName}")
-	public ResponseEntity<?> existsByName(@PathVariable(name = "userName") String userName) {
-		return new ResponseEntity<>(accountService.existsByUserName(userName), HttpStatus.OK);
-	}
-
-	@GetMapping(value = "/EmailExists/{email}")
-	public ResponseEntity<?> existsByEmail(@PathVariable(name = "email") String email) {
-		return new ResponseEntity<>(accountService.existsByEmail(email), HttpStatus.OK);
-	}
+//	@GetMapping(value = "/email/{email}")
+//	public ResponseEntity<?> getAccountByEmail(@PathVariable String email) {
+//		Account account = accountService.getAccountByEmail(email);
+//		AccountDto dto = new AccountDto(account.getAccountID(), account.getEmail(), account.getUserName(),
+//				account.getFullName(), account.getDepartment().getDepartmentName(),
+//				account.getPosition().getPositionName().toString(), account.getCreateDate());
+//		return new ResponseEntity<AccountDto>(dto, HttpStatus.OK);
+//	}
+//
+//	@GetMapping(value = "/UserNameExists/{userName}")
+//	public ResponseEntity<?> existsByName(@PathVariable(name = "userName") String userName) {
+//		return new ResponseEntity<>(accountService.existsByUserName(userName), HttpStatus.OK);
+//	}
+//
+//	@GetMapping(value = "/EmailExists/{email}")
+//	public ResponseEntity<?> existsByEmail(@PathVariable(name = "email") String email) {
+//		return new ResponseEntity<>(accountService.existsByEmail(email), HttpStatus.OK);
+//	}
 }
