@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+//Giải thích như bên class Account
 @Entity
 @Table(name = "Department", catalog = "TestingSystem")
 public class Department implements Serializable {
@@ -30,7 +31,7 @@ public class Department implements Serializable {
 	private String departmentName;
 
 	@OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
-	@Cascade(value = { CascadeType.REMOVE, CascadeType.SAVE_UPDATE })
+	@Cascade(value = { CascadeType.REMOVE, CascadeType.SAVE_UPDATE })   //xoá cha thì xoá cả các con
 	private List<Account> account;
 
 	public Department() {

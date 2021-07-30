@@ -10,19 +10,20 @@ import org.springframework.stereotype.Component;
 
 import com.rikkei.service.IAccountService;
 
-@Component
-@EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+@Component   //đánh dấu class này là bean - giống với @service và @Repository
+@EnableWebSecurity // đánh dấu class để kích hoạt SpringSecurity
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {  //WebSecurityConfigurerAdapter định nghĩa cấu hình cần thiết cho SpringSecurity
 	@Autowired
 	private IAccountService accountService;
 	
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {   //AuthenticationManagerBuilder hỗ trợ sử dụng user được lưu trữ trong db
 		auth.userDetailsService(accountService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity http) throws Exception {  //định nghĩa request nào được access bởi user có role nào
 		http
 		.cors()
 		.and()

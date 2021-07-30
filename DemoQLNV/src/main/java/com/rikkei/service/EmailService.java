@@ -19,10 +19,6 @@ public class EmailService implements IEmailService {
 	@Autowired
 	private JavaMailSender mailSender;
 
-	/*
-	 * @see
-	 * com.vti.service.IEmailService#sendRegistrationUserConfirm(java.lang.String)
-	 */
 	@Override
 	public void sendRegistrationUserConfirm(String email) {
 

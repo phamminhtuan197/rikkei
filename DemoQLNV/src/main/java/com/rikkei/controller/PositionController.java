@@ -16,6 +16,8 @@ import com.rikkei.entity.Position;
 import com.rikkei.entity.PositionName;
 import com.rikkei.service.IPositionService;
 
+//Giải thích giống class AccountController
+
 @RestController
 @RequestMapping(value = "api/v1/positions")
 @CrossOrigin("*")

@@ -2,6 +2,8 @@ package com.rikkei.dto;
 
 import com.rikkei.entity.PositionName;
 
+
+//Class này dùng để chuyển đổi giữa dữ liệu lấy được từ DB sang dữ hiển thị đẩy lên Frontend.
 public class PositionDto {
 	private short positionID;
 	private PositionName positionName;

@@ -12,9 +12,10 @@ import com.rikkei.entity.Account;
 import com.rikkei.repository.IAccountRepository;
 import com.rikkei.utils.FileManager;
 
+// cấu hình đường dẫn đến nơi lưu ảnh đc tải lên
 @Service
 public class FileService implements IFileService {
-	@Autowired
+	@Autowired  //Giảm sự phụ thuộc giữa các tầng
 	private IAccountRepository accountRepository;
 
 	private FileManager fileManager = new FileManager();

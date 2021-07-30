@@ -19,6 +19,8 @@ import com.rikkei.dto.DepartmentDto;
 import com.rikkei.entity.Department;
 import com.rikkei.service.IDepartmentService;
 
+//Giải thích giống class AccountController
+
 @RestController
 @RequestMapping(value = "api/v1/departments")
 @CrossOrigin("*")

@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+//Giải thích như bên class Account
 @Entity
 @Table(name = "Position", catalog = "TestingSystem")
 public class Position implements Serializable {

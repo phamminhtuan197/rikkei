@@ -23,9 +23,10 @@ import com.rikkei.entity.Account;
 import com.rikkei.form.AccountForm;
 import com.rikkei.service.IAccountService;
 
-@RestController
-@RequestMapping(value = "api/v1/accounts")
-@CrossOrigin("*")
+
+@RestController  // kết hợp giữa @Controller và @RéponseBody giống với @Component nhưng đánh dấu cụ thể đây là tầng Controller
+@RequestMapping(value = "api/v1/accounts")  //map request với class
+@CrossOrigin("*")  // CORS-tiêu chuẩn bảo mật có ở trình duyệt, @CrossOrigin cho phép truy cập ở bất kì domain nào
 public class AccountController {
 	@Autowired
 	private IAccountService accountService;
@@ -42,8 +43,8 @@ public class AccountController {
 //		}
 //		return new ResponseEntity<List<AccountDto>>(dtos, HttpStatus.OK);
 //	}
-	@GetMapping()
-	public ResponseEntity<?> getAllAccount(Pageable pageable, @RequestParam(required = false) String search) {
+	@GetMapping()  //map request với method
+	public ResponseEntity<?> getAllAccount(Pageable pageable, @RequestParam(required = false) String search) {  //@RequestParam để trích xuất dữ liệu từ parameter, Pageable hỗ trợ phân trang
 		Page<Account> entities = accountService.getAllAccount(pageable, search);
 		Page<AccountDto> dtoPage = entities.map(new Function<Account, AccountDto>() {
 			@Override
@@ -54,11 +55,11 @@ public class AccountController {
 				return dto;
 			}
 		});
-		return new ResponseEntity<Page<AccountDto>>(dtoPage, HttpStatus.OK);
+		return new ResponseEntity<Page<AccountDto>>(dtoPage, HttpStatus.OK); //HttpStatus là mã code server trả về mỗi lần gửi request, ở đây gửi về 200 OK
 	}
 
-	@GetMapping(value = "/accountID/{accountID}")
-	public ResponseEntity<?> getAccountByID(@PathVariable short accountID) {
+	@GetMapping(value = "/{accountID}") //map request với method, @Get là để lấy dữ liệu
+	public ResponseEntity<?> getAccountByID(@PathVariable short accountID) {   //@PathVariable đánh dấu khoá chính của entity muốn truy vấn
 		Account account = accountService.getAccountByID(accountID);
 		AccountDto dto = new AccountDto(account.getAccountID(), account.getEmail(), account.getUserName(),
 				account.getFullName(), account.getDepartment().getDepartmentName(),
@@ -66,7 +67,7 @@ public class AccountController {
 		return new ResponseEntity<AccountDto>(dto, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/userName/{userName}")
+	@GetMapping(value = "/userName/{userName}") //map request với method, @Get là để lấy dữ liệu
 	public ResponseEntity<?> getAccountByUserName(@PathVariable String userName) {
 		Account account = accountService.getAccountByUserName(userName);
 		AccountDto dto = new AccountDto(account.getAccountID(), account.getEmail(), account.getUserName(),
@@ -75,8 +76,8 @@ public class AccountController {
 		return new ResponseEntity<AccountDto>(dto, HttpStatus.OK);
 	}
 
-	@PostMapping()
-	public ResponseEntity<?> createAccount(@RequestBody AccountForm accountFrom) {
+	@PostMapping() ////map request với method, @Post đánh dấu đây là method tạo mới
+	public ResponseEntity<?> createAccount(@RequestBody AccountForm accountFrom) {   //@RequestBody đánh dấu đây là phần body của request
 		accountService.createAccount(accountFrom);
 		return new ResponseEntity<String>("Create success", HttpStatus.CREATED);
 	}
@@ -96,14 +97,14 @@ public class AccountController {
 //		return new ResponseEntity<List<Object[]>>(accountService.getCountAccountByMonthOfYearNow(), HttpStatus.OK);
 //	}
 
-	@PutMapping(value = "/accountID/{accountID}")
+	@PutMapping(value = "/accountID/{accountID}")  ////map request với method, @Put dùng để sửa
 	public ResponseEntity<?> updateAccount(@PathVariable(name = "accountID") short accountID,
-			@RequestBody AccountForm accountForm) {
+			@RequestBody AccountForm accountForm) {   
 		accountService.updateAccount(accountID, accountForm);
 		return new ResponseEntity<String>("Update success", HttpStatus.OK);
 	}
 
-	@DeleteMapping(value = "/accountID/{accountID}")
+	@DeleteMapping(value = "/accountID/{accountID}")  //map request với method, @Delete để xoá
 	public ResponseEntity<?> deleteAccount(@PathVariable(name = "accountID") short accountID) {
 		accountService.deleteAccount(accountID);
 		return new ResponseEntity<String>("Delete success", HttpStatus.OK);

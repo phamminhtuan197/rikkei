@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+
+//Class này dùng để lưu thông tin token nhận xác thực qua email
 @Entity
 @Table(name = "`Registration_User_Token`")
 public class RegistrationUserToken implements Serializable {

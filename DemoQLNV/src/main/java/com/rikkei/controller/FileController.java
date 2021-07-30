@@ -22,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.rikkei.service.IFileService;
 import com.rikkei.utils.FileManager;
 
+//Giải thích giống class AccountController
+
 @RestController
 @RequestMapping(value = "/api/v1/files")
 @CrossOrigin("*")
@@ -32,7 +34,7 @@ public class FileController {
 
 	@PostMapping
 	public ResponseEntity<?> upLoadImage(@RequestParam(name = "image") MultipartFile image,
-			@RequestParam(name = "id", required = false) short id) throws IOException {
+			@RequestParam(name = "id", required = false) short id) throws IOException {   //chỉ ra kiểu dữ liệu của file up lên
 
 		if (!new FileManager().isTypeFileImage(image)) {
 			return new ResponseEntity<>("File must be image!", HttpStatus.UNPROCESSABLE_ENTITY);
@@ -60,7 +62,7 @@ public class FileController {
 	}
 
 	@GetMapping(value = "/image/{id}")
-	public ResponseEntity<?> getImgNameByID(@PathVariable(name = "id") short id) {
+	public ResponseEntity<?> getImgNameByID(@PathVariable(name = "id") short id) {  //lấy tên ảnh để lưu vào db
 		String imgName = fileService.getImgNameByID(id);
 		return new ResponseEntity<String>(imgName, HttpStatus.OK);
 	}

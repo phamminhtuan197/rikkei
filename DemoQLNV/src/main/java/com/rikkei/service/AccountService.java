@@ -30,7 +30,7 @@ import com.rikkei.repository.IPositionRepository;
 import com.rikkei.repository.IRegistrationUserTokenRepository;
 import com.rikkei.specification.AccountSpecification;
 
-@Service
+@Service  //đánh dấu đây là lớp service
 public class AccountService implements IAccountService {
 	@Autowired
 	private IAccountRepository accountRepository;

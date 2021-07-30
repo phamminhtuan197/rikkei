@@ -2,6 +2,8 @@ package com.rikkei.event;
 
 import org.springframework.context.ApplicationEvent;
 
+
+// Khi đăng kí tài khoản thì cần phải kích hoạt thông qua email
 public class OnSendRegistrationUserConfirmViaEmailEvent extends ApplicationEvent {
 	private static final long serialVersionUID = 1L;
 

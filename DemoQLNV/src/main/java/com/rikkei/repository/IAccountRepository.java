@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.rikkei.entity.Account;
 
-
+//Extends JpaRepository của Spring data JPA, chỉ cần Extend mà k cần làm thêm gì, do 1 số phương thức hay dùng JPA đã hỗ trợ sẵn.
+//Extends JPASpecificationExcutor để hỗ trợ tìm kiếm Specification
 public interface IAccountRepository extends JpaRepository<Account, Short>, JpaSpecificationExecutor<Account> {
 	public Account findByUserName(String userName);
 	

@@ -1,5 +1,7 @@
 package com.rikkei.form;
 
+
+// class form dùng để người dùng nhập dữ liệu trên fontend
 public class AccountForm {
 	private String email;
 	private String userName;

@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import org.springframework.web.multipart.MultipartFile;
 
+
+//Cấu hình chức năng lưu trữ file
 public class FileManager {
 
 	public boolean isFileOrFolderExist(String path) throws IOException {

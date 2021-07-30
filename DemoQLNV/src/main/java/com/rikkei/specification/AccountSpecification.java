@@ -9,6 +9,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.rikkei.entity.Account;
 
+
+// Cấu hình chức năng search 
 public class AccountSpecification implements Specification<Account> {
 	
 	private static final long serialVersionUID = 1L;

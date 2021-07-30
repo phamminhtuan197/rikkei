@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rikkei.form.AccountFormForCreatingRegister;
 import com.rikkei.service.IAccountService;
 
+// Giải thích giống class AccountController, class này dùng để xử lí khi đăng ký account
 @RestController
 @RequestMapping(value = "api/v1/accountsRegister")
 @CrossOrigin("*")
@@ -30,7 +31,7 @@ public class AccountRegisterController {
 	}
 
 	@GetMapping("/activeUser")
-	public ResponseEntity<?> activeUserViaEmail(@RequestParam String token) {
+	public ResponseEntity<?> activeUserViaEmail(@RequestParam String token) { //Kích hoạt tài khoản 
 
 		// active user
 		accountService.activeUser(token);

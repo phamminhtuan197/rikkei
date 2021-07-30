@@ -1,5 +1,7 @@
 package com.rikkei.dto;
 
+//Class này dùng để chuyển đổi giữa dữ liệu lấy được từ DB sang localstorage
+
 public class LoginInfoDto {
 	private short accountID;
 	private String fullName;
