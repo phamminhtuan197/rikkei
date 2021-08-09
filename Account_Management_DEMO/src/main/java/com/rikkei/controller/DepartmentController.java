@@ -54,7 +54,7 @@ public class DepartmentController {
 //		return new ResponseEntity<Page<DepartmentDto>>(dtoPage, HttpStatus.OK);
 //	}
 
-	@GetMapping(value = "/departmentID/{departmentID}")
+	@GetMapping(value = "/{departmentID}")
 	public ResponseEntity<?> getDepartmentByID(@PathVariable(name = "departmentID") short departmentID) {
 		return new ResponseEntity<Department>(departmentService.getDepartmentByID(departmentID), HttpStatus.OK);
 	}
@@ -70,7 +70,7 @@ public class DepartmentController {
 		return new ResponseEntity<String>("Create success", HttpStatus.CREATED);
 	};
 
-	@PutMapping(value = "/departmentID/{departmentID}")
+	@PutMapping(value = "/{departmentID}")
 	public ResponseEntity<?> updateDepartment(@PathVariable(name = "departmentID") short departmentID,
 			Department department) {
 		department.setDepartmentID(departmentID);
@@ -78,7 +78,7 @@ public class DepartmentController {
 		return new ResponseEntity<String>("Update success", HttpStatus.OK);
 	}
 
-	@DeleteMapping(value = "/departmentID/{departmentID}")
+	@DeleteMapping(value = "/{departmentID}")
 	public ResponseEntity<?> deleteDepartment(@PathVariable(name = "departmentID") short departmentID) {
 		departmentService.deleteDepartment(departmentID);
 		return new ResponseEntity<String>("Delete success", HttpStatus.OK);

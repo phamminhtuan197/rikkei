@@ -24,7 +24,7 @@ import com.rikkei.dto.AccountDto;
 import com.rikkei.entity.Account;
 import com.rikkei.form.AccountForm;
 import com.rikkei.service.IAccountService;
-
+//
 @RestController
 @RequestMapping(value = "api/v1/accounts")
 @CrossOrigin("*")
