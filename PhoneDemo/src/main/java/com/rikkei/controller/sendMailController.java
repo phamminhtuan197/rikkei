@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rikkei.entities.Order;
-import com.rikkei.entities.OrderDetail;
+import com.rikkei.entity.Order;
+import com.rikkei.entity.OrderDetail;
 import com.rikkei.repository.OrderDetailRepository;
 import com.rikkei.repository.UserRepository;
-import com.rikkei.service.SendMailService;
+import com.rikkei.service.ISendMailService;
 
 @CrossOrigin("*")
 @RestController
@@ -26,7 +26,7 @@ public class sendMailController {
 	OrderDetailRepository ODrepo;
 
 	@Autowired
-	SendMailService sendMail;
+	ISendMailService sendMail;
 	
 	@Autowired
 	UserRepository Urepo;

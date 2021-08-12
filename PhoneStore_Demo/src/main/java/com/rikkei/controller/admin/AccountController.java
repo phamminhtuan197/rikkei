@@ -48,7 +48,7 @@ public class AccountController {
 	@GetMapping("/editProfile")
 	public ModelAndView editForm(ModelMap model, Principal principal) {
 
-		model.addAttribute("customer", customerRepository.FindByEmail(principal.getName()).get());
+		model.addAttribute("customer", customerRepository.FindByEmail(principal.getName()));
 
 		return new ModelAndView("/admin/editProfile", model);
 	}

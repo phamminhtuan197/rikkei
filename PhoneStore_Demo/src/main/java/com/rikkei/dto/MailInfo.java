@@ -1,12 +1,5 @@
 package com.rikkei.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class MailInfo {
 	String from;
 	String to;
@@ -15,7 +8,7 @@ public class MailInfo {
 	String attachments;
 
 	public MailInfo(String to, String subject, String body) {
-		this.from = "KeyBoard Shop <poly@fpt.edu.vn>";
+		this.from = "Team2 Shop <storeproject15@gmail.com>";
 		this.to = to;
 		this.subject = subject;
 		this.body = body;

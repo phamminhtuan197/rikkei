@@ -8,9 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.rikkei.config.oauth.CustomOAuth2UserService;
-import com.rikkei.config.oauth.OAuth2LoginSuccessHandler;
 import com.rikkei.service.UserDetailService;
 
 @Configuration
@@ -19,12 +18,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	UserDetailService userDetailService;
-	
-	@Autowired
-	private CustomOAuth2UserService customOAuth2UserService;
-	
-	@Autowired
-	OAuth2LoginSuccessHandler oauth2LoginSuccessHandler;
 	
 
 	@Bean
@@ -44,29 +37,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 
-		http.authorizeRequests().antMatchers("/login", "/oauth2/**", "/logout", "/register", "/home/**", "/cart/**",
+		http.authorizeRequests().antMatchers("/login", "/logout", "/register", "/home/**", "/cart/**",
 				"/addCart/**", "/assets/**", "/css/**", "/js/**").permitAll();
 
-		http.authorizeRequests().antMatchers("/customer/**").access("hasRole('ROLE_USER')");
+		http.authorizeRequests().antMatchers("/customer/**").hasAnyAuthority("User");
 
-		http.authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')");
+		http.authorizeRequests().antMatchers("/admin/**").hasAnyAuthority("Admin");
 
 		http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 
-		http.authorizeRequests().and().formLogin()
-				.loginProcessingUrl("/j_spring_security_check")
-				.loginPage("/login")
-				.defaultSuccessUrl("/home")
-				.failureUrl("/login?error=true")
-				.usernameParameter("username")
-				.passwordParameter("password")
-				.and()
-				.oauth2Login()
-					.loginPage("/login")
-					.userInfoEndpoint().userService(customOAuth2UserService).and()
-					.successHandler(oauth2LoginSuccessHandler)
-				.and()
-				.logout().logoutUrl("/logout").logoutSuccessUrl("/home");
+		http.authorizeRequests().and().addFilterBefore(new JWTAuthenticationFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+		
+		http.authorizeRequests().and().addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
 	}
 

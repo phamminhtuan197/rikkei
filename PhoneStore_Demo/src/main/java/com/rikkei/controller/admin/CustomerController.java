@@ -32,12 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rikkei.dto.CustomerDto;
-import com.rikkei.entity.AppRole;
 import com.rikkei.entity.Customer;
-import com.rikkei.entity.UserRole;
-import com.rikkei.repository.AppRoleRepository;
 import com.rikkei.repository.CustomerRepository;
-import com.rikkei.repository.UserRoleRepository;
 
 @Controller
 @RequestMapping("/admin/customers")
@@ -45,11 +41,7 @@ public class CustomerController {
 	@Autowired
 	CustomerRepository customerRepository;
 	
-	@Autowired
-	UserRoleRepository userRoleRepository;
 	
-	@Autowired
-	AppRoleRepository appRoleRepository;
 	
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -124,9 +116,9 @@ public class CustomerController {
 		}
 
 		customerRepository.save(c);
-		Optional<AppRole> a = appRoleRepository.findById(2L);
-		UserRole urole = new UserRole(0L, c, a.get());
-		userRoleRepository.save(urole);
+//		Optional<AppRole> a = appRoleRepository.findById(2L);
+//		UserRole urole = new UserRole(0L, c, a.get());
+//		userRoleRepository.save(urole);
 		if (dto.isEdit()) {
 			model.addAttribute("message", "Sửa thành công !");
 

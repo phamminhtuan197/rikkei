@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rikkei.entities.Product;
-import com.rikkei.repository.ProductResository;
+import com.rikkei.entity.Product;
+import com.rikkei.repository.IProductRepository;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("api/products")
 public class ProductController {
 	@Autowired
-	ProductResository repo;
+	IProductRepository repo;
 	
 	@GetMapping
 	public ResponseEntity<List<Product>> getAll() {

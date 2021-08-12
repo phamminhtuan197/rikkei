@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rikkei.entities.RegistrationUserToken;
+import com.rikkei.entity.RegistrationUserToken;
 
 public interface IRegistrationUserTokenRepository extends JpaRepository<RegistrationUserToken, Integer> {
 	

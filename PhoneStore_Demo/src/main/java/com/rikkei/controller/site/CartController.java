@@ -19,49 +19,43 @@ import com.rikkei.entity.CartItem;
 import com.rikkei.entity.Category;
 import com.rikkei.entity.Customer;
 import com.rikkei.entity.Product;
-import com.rikkei.entity.UserRole;
 import com.rikkei.repository.CategoryRepository;
 import com.rikkei.repository.CustomerRepository;
 import com.rikkei.repository.ProductRepository;
-import com.rikkei.repository.UserRoleRepository;
 import com.rikkei.service.ShoppingCartService;
 
 @Controller
 public class CartController {
 	@Autowired
 	ProductRepository productRepository;
-	
+
 	@Autowired
 	ShoppingCartService shoppingCartService;
-	
+
 	@Autowired
 	CategoryRepository categoryRepository;
-	
+
 	@Autowired
 	CustomerRepository customerRepository;
-	
-	@Autowired
-	UserRoleRepository userRoleRepository;
-	
-	
+
 	@RequestMapping("/addCart/{id}")
 	public ModelAndView addCart(ModelMap model, @PathVariable("id") Long id, Principal principal) {
-		
+
 		boolean isLogin = false;
-		if (principal!=null) {
+		if (principal != null) {
 			System.out.println(principal.getName());
 			isLogin = true;
 		}
 		model.addAttribute("isLogin", isLogin);
-		
-		if(principal!=null) {
+
+		if (principal != null) {
 			Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
-			Optional<UserRole> uRole = userRoleRepository.findByCustomerId(Long.valueOf(c.get().getCustomerId()));
-			if(uRole.get().getAppRole().getName().equals("ROLE_ADMIN")) {
+
+			if (c.get().getRole().toString().equals("Admin")) {
 				return new ModelAndView("forward:/admin/customers", model);
 			}
 		}
-		
+
 		Optional<Product> p = productRepository.findById(id);
 		if (p.isPresent()) {
 			CartItem item = new CartItem();
@@ -79,46 +73,47 @@ public class CartController {
 	}
 
 	@RequestMapping("/cart/update")
-	public ModelAndView updateCart(@RequestParam("id") Long id, @RequestParam("quantity") int quantity, ModelMap model, Principal principal) {
-		
+	public ModelAndView updateCart(@RequestParam("id") Long id, @RequestParam("quantity") int quantity, ModelMap model,
+			Principal principal) {
+
 		boolean isLogin = false;
-		if (principal!=null) {
+		if (principal != null) {
 			System.out.println(principal.getName());
 			isLogin = true;
 		}
 		model.addAttribute("isLogin", isLogin);
-		
-		if(principal!=null) {
+
+		if (principal != null) {
 			Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
-			Optional<UserRole> uRole = userRoleRepository.findByCustomerId(Long.valueOf(c.get().getCustomerId()));
-			if(uRole.get().getAppRole().getName().equals("ROLE_ADMIN")) {
+
+			if (c.get().getRole().toString().equals("Admin")) {
 				return new ModelAndView("forward:/admin/customers", model);
 			}
 		}
-		
+
 		shoppingCartService.update(id, quantity);
 		model.addAttribute("totalCartItems", shoppingCartService.getCount());
 		return new ModelAndView("forward:/cart", model);
 	}
-	
+
 	@RequestMapping("/cart/remove/{id}")
 	public ModelAndView remove(@PathVariable("id") Long id, ModelMap model, Principal principal) {
-		
+
 		boolean isLogin = false;
-		if (principal!=null) {
+		if (principal != null) {
 			System.out.println(principal.getName());
 			isLogin = true;
 		}
 		model.addAttribute("isLogin", isLogin);
-		
-		if(principal!=null) {
+
+		if (principal != null) {
 			Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
-			Optional<UserRole> uRole = userRoleRepository.findByCustomerId(Long.valueOf(c.get().getCustomerId()));
-			if(uRole.get().getAppRole().getName().equals("ROLE_ADMIN")) {
+
+			if (c.get().getRole().toString().equals("Admin")) {
 				return new ModelAndView("forward:/admin/customers", model);
 			}
 		}
-		
+
 		shoppingCartService.remove(id);
 		model.addAttribute("totalCartItems", shoppingCartService.getCount());
 		return new ModelAndView("forward:/cart", model);
@@ -126,22 +121,22 @@ public class CartController {
 
 	@RequestMapping("/cart")
 	public ModelAndView cart(ModelMap model, Principal principal) {
-		
+
 		boolean isLogin = false;
-		if (principal!=null) {
+		if (principal != null) {
 			System.out.println(principal.getName());
 			isLogin = true;
 		}
 		model.addAttribute("isLogin", isLogin);
-		
-		if(principal!=null) {
+
+		if (principal != null) {
 			Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
-			Optional<UserRole> uRole = userRoleRepository.findByCustomerId(Long.valueOf(c.get().getCustomerId()));
-			if(uRole.get().getAppRole().getName().equals("ROLE_ADMIN")) {
+
+			if (c.get().getRole().toString().equals("Admin")) {
 				return new ModelAndView("forward:/admin/customers", model);
 			}
 		}
-		
+
 		Collection<CartItem> cart = shoppingCartService.getCartItems();
 		model.addAttribute("cartItems", cart);
 

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rikkei.entities.User;
-import com.rikkei.entities.Login;
+import com.rikkei.entity.Login;
+import com.rikkei.entity.User;
 import com.rikkei.repository.UserRepository;
 
 @CrossOrigin("*")

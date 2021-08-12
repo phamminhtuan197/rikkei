@@ -14,13 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "customers")
 public class Customer implements Serializable{
@@ -58,7 +52,7 @@ public class Customer implements Serializable{
 	private Boolean gender;
 	
 	@Column
-	private boolean admin;
+	private Role role;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "auth_provider")
@@ -139,12 +133,13 @@ public class Customer implements Serializable{
 		this.gender = gender;
 	}
 
-	public boolean isAdmin() {
-		return admin;
+
+	public Role getRole() {
+		return role;
 	}
 
-	public void setAdmin(boolean admin) {
-		this.admin = admin;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	public AuthenticationProvider getAuthProvider() {
@@ -163,8 +158,9 @@ public class Customer implements Serializable{
 		this.address = address;
 	}
 
+
 	public Customer(int customerId, String name, String email, String password, String phone, String image,
-			Date registerDate, Boolean status, Boolean gender, boolean admin, AuthenticationProvider authProvider,
+			Date registerDate, Boolean status, Boolean gender, Role role, AuthenticationProvider authProvider,
 			String address) {
 		super();
 		this.customerId = customerId;
@@ -176,7 +172,7 @@ public class Customer implements Serializable{
 		this.registerDate = registerDate;
 		this.status = status;
 		this.gender = gender;
-		this.admin = admin;
+		this.role = role;
 		this.authProvider = authProvider;
 		this.address = address;
 	}
@@ -184,6 +180,7 @@ public class Customer implements Serializable{
 	public Customer() {
 		super();
 	}
+	
 	
 //	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
 //	private Set<Order> orders;

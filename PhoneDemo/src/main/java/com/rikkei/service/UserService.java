@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.rikkei.entities.User;
+import com.rikkei.entity.User;
 import com.rikkei.repository.IRegistrationUserTokenRepository;
 import com.rikkei.repository.UserRepository;
 

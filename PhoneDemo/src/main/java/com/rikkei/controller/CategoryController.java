@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rikkei.entities.Category;
+import com.rikkei.entity.Category;
 import com.rikkei.repository.CategoryRepository;
 
 @CrossOrigin("*")

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rikkei.entities.Rate;
+import com.rikkei.entity.Rate;
 import com.rikkei.repository.RateRepository;
 
 @CrossOrigin("*")

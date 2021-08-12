@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rikkei.entities.CartDetail;
-import com.rikkei.entities.Product;
+import com.rikkei.entity.CartDetail;
+import com.rikkei.entity.Product;
 import com.rikkei.repository.CartDetailRepository;
 import com.rikkei.repository.CartRepository;
-import com.rikkei.repository.ProductResository;
+import com.rikkei.repository.IProductRepository;
 
 @CrossOrigin("*")
 @RestController
@@ -32,7 +32,7 @@ public class CartDetailController {
 	CartRepository Crepo;
 	
 	@Autowired
-	ProductResository Prepo;
+	IProductRepository Prepo;
 
 	@GetMapping("cart/{id}")
 	public ResponseEntity<List<CartDetail>> getByCartId(@PathVariable("id") Long id) {

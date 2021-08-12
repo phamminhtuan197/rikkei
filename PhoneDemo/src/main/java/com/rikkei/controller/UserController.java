@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rikkei.entities.Cart;
-import com.rikkei.entities.User;
+import com.rikkei.entity.Cart;
+import com.rikkei.entity.User;
 import com.rikkei.repository.CartRepository;
 import com.rikkei.repository.UserRepository;
 import com.rikkei.service.IUserService;

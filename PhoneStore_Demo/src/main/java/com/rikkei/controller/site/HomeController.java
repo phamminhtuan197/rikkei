@@ -21,11 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.rikkei.entity.Category;
 import com.rikkei.entity.Customer;
 import com.rikkei.entity.Product;
-import com.rikkei.entity.UserRole;
 import com.rikkei.repository.CategoryRepository;
 import com.rikkei.repository.CustomerRepository;
 import com.rikkei.repository.ProductRepository;
-import com.rikkei.repository.UserRoleRepository;
 import com.rikkei.service.ShoppingCartService;
 
 @Controller
@@ -43,10 +41,7 @@ public class HomeController {
 	@Autowired
 	CustomerRepository customerRepository;
 
-	@Autowired
-	UserRoleRepository userRoleRepository;
-
-	@RequestMapping(value = {"/home", "/"})
+	@RequestMapping(value = { "/home", "/" })
 	public ModelAndView home(ModelMap model, Principal principal) {
 		boolean isLogin = false;
 		if (principal != null) {
@@ -54,10 +49,10 @@ public class HomeController {
 		}
 		model.addAttribute("isLogin", isLogin);
 
-		if(principal!=null) {
+		if (principal != null) {
 			Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
-			Optional<UserRole> uRole = userRoleRepository.findByCustomerId(Long.valueOf(c.get().getCustomerId()));
-			if(uRole.get().getAppRole().getName().equals("ROLE_ADMIN")) {
+
+			if (c.get().getRole().toString().equals("Admin")) {
 				return new ModelAndView("forward:/admin/customers", model);
 			}
 		}
@@ -91,8 +86,8 @@ public class HomeController {
 
 		if (principal != null) {
 			Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
-			Optional<UserRole> uRole = userRoleRepository.findByCustomerId(Long.valueOf(c.get().getCustomerId()));
-			if (uRole.get().getAppRole().getName().equals("ROLE_ADMIN")) {
+
+			if (c.get().getRole().toString().equals("Admin")) {
 				return new ModelAndView("forward:/admin/customers", model);
 			}
 		}
@@ -131,8 +126,8 @@ public class HomeController {
 
 		if (principal != null) {
 			Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
-			Optional<UserRole> uRole = userRoleRepository.findByCustomerId(Long.valueOf(c.get().getCustomerId()));
-			if (uRole.get().getAppRole().getName().equals("ROLE_ADMIN")) {
+
+			if (c.get().getRole().toString().equals("Admin")) {
 				return new ModelAndView("forward:/admin/customers", model);
 			}
 		}
@@ -169,9 +164,8 @@ public class HomeController {
 		model.addAttribute("isLogin", isLogin);
 
 		if (principal != null) {
-			Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
-			Optional<UserRole> uRole = userRoleRepository.findByCustomerId(Long.valueOf(c.get().getCustomerId()));
-			if (uRole.get().getAppRole().getName().equals("ROLE_ADMIN")) {
+			Customer c = customerRepository.FindByEmail(principal.getName()).get();
+			if (c.getRole().toString().equals("Admin")) {
 				return new ModelAndView("forward:/admin/customers", model);
 			}
 		}
@@ -252,9 +246,9 @@ public class HomeController {
 		model.addAttribute("isLogin", isLogin);
 
 		if (principal != null) {
-			Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
-			Optional<UserRole> uRole = userRoleRepository.findByCustomerId(Long.valueOf(c.get().getCustomerId()));
-			if (uRole.get().getAppRole().getName().equals("ROLE_ADMIN")) {
+			Customer c = customerRepository.FindByEmail(principal.getName()).get();
+
+			if (c.getRole().toString().equals("Admin")) {
 				return new ModelAndView("forward:/admin/customers", model);
 			}
 		}

@@ -1,23 +1,27 @@
 package com.rikkei.service;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.rikkei.entities.User;
+import com.rikkei.entity.User;
 
 public interface IUserService extends UserDetailsService {
 	
-Boolean existsByEmail(String email);
+	Boolean existsByEmail(String email);
 	
 	User findByEmail(String email);
 	
+	void createUser(User user);
+	
+	void updateUser (long id, User user);
+	
+	void deleteUser (long id);
 //	@Query(value = "select * from user where status = 1 and role = 0", nativeQuery = true)
-	List<User> findByStatusTrueAndRoleFalse();
+//	List<User> findByStatusTrueAndRoleFalse();
 	
 	//get admin
-	List<User> findAllAdmin();
+	Page<User> findAllAdmin(Pageable pageable);
 	//getUser
-	List<User> findAllUser();
+	Page<User> findAllUser(Pageable pageable);
 }

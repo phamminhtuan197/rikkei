@@ -36,19 +36,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.rikkei.dto.ChangePassword;
 import com.rikkei.dto.CustomerDto;
-import com.rikkei.entity.AppRole;
 import com.rikkei.entity.CartItem;
 import com.rikkei.entity.Customer;
 import com.rikkei.entity.Order;
 import com.rikkei.entity.OrderDetail;
 import com.rikkei.entity.Product;
-import com.rikkei.entity.UserRole;
-import com.rikkei.repository.AppRoleRepository;
 import com.rikkei.repository.CustomerRepository;
 import com.rikkei.repository.OrderDetailRepository;
 import com.rikkei.repository.OrderRepository;
 import com.rikkei.repository.ProductRepository;
-import com.rikkei.repository.UserRoleRepository;
 import com.rikkei.service.SendMailService;
 import com.rikkei.service.ShoppingCartService;
 
@@ -66,12 +62,6 @@ public class CustomerSiteController {
 
 	@Autowired
 	ProductRepository productRepository;
-
-	@Autowired
-	AppRoleRepository appRoleRepository;
-
-	@Autowired
-	UserRoleRepository userRoleRepository;
 
 	@Autowired
 	OrderRepository orderRepository;
@@ -130,8 +120,8 @@ public class CustomerSiteController {
 	}
 
 	@PostMapping("/confirmOtpRegister")
-	public ModelAndView confirmRegister(ModelMap model, @ModelAttribute("customer") CustomerDto dto, @RequestParam("password") String password,
-			@RequestParam("otp") String otp) {
+	public ModelAndView confirmRegister(ModelMap model, @ModelAttribute("customer") CustomerDto dto,
+			@RequestParam("password") String password, @RequestParam("otp") String otp) {
 		if (otp.equals(String.valueOf(session.getAttribute("otp")))) {
 			dto.setPassword(bCryptPasswordEncoder.encode(password));
 			Customer c = new Customer();
@@ -140,15 +130,15 @@ public class CustomerSiteController {
 			c.setStatus(true);
 			c.setImage("user.png");
 			customerRepository.save(c);
-			Optional<AppRole> a = appRoleRepository.findById(2L);
-			UserRole urole = new UserRole(0L, c, a.get());
-			userRoleRepository.save(urole);
-			
+//			Optional<AppRole> a = appRoleRepository.findById(2L);
+//			UserRole urole = new UserRole(0L, c, a.get());
+//			userRoleRepository.save(urole);
+
 			session.removeAttribute("otp");
 			model.addAttribute("message", "Đăng kí thành công");
 			return new ModelAndView("/site/login");
 		}
-		
+
 		model.addAttribute("customer", dto);
 		model.addAttribute("error", "Mã OTP không đúng, hãy thử lại!");
 		return new ModelAndView("/site/confirmOtpRegister", model);
@@ -197,7 +187,8 @@ public class CustomerSiteController {
 	@PostMapping("/changePassword")
 	public ModelAndView changeForm(ModelMap model,
 			@Valid @ModelAttribute("changePassword") ChangePassword changePassword, BindingResult result,
-			@RequestParam("email") String email, @RequestParam("newPassword") String newPassword, @RequestParam("confirmPassword") String confirmPassword) {
+			@RequestParam("email") String email, @RequestParam("newPassword") String newPassword,
+			@RequestParam("confirmPassword") String confirmPassword) {
 		if (result.hasErrors()) {
 
 			model.addAttribute("newPassword", newPassword);
@@ -238,13 +229,13 @@ public class CustomerSiteController {
 
 		if (principal != null) {
 			Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
-			Optional<UserRole> uRole = userRoleRepository.findByCustomerId(Long.valueOf(c.get().getCustomerId()));
-			if (uRole.get().getAppRole().getName().equals("ROLE_ADMIN")) {
+
+			if (c.get().getRole().toString().equals("Admin")) {
 				return new ModelAndView("forward:/admin/customers", model);
 			}
 		}
 
-		model.addAttribute("customer", customerRepository.FindByEmail(principal.getName()).get());
+		model.addAttribute("customer", customerRepository.FindByEmail(principal.getName()));
 
 		model.addAttribute("totalCartItems", shoppingCartService.getCount());
 		return new ModelAndView("/site/editProfile");
@@ -282,32 +273,32 @@ public class CustomerSiteController {
 		model.addAttribute("isLogin", isLogin);
 
 		if (principal != null) {
-			Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
-			Optional<UserRole> uRole = userRoleRepository.findByCustomerId(Long.valueOf(c.get().getCustomerId()));
-			if (uRole.get().getAppRole().getName().equals("ROLE_ADMIN")) {
+			Customer c = customerRepository.FindByEmail(principal.getName()).get();
+
+			if (c.getRole().toString().equals("Admin")) {
 				return new ModelAndView("forward:/admin/customers", model);
 			}
 		}
 
-		Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
+		Customer c = customerRepository.FindByEmail(principal.getName()).get();
 
-		Page<Order> listO0 = orderRepository.findByCustomerId(c.get().getCustomerId(), 0,
+		Page<Order> listO0 = orderRepository.findByCustomerId(c.getCustomerId(), 0,
 				PageRequest.of(0, 100, Sort.by(Sort.Direction.DESC, "order_id")));
 		model.addAttribute("orders0", listO0);
 
-		Page<Order> listO1 = orderRepository.findByCustomerId(c.get().getCustomerId(), 1,
+		Page<Order> listO1 = orderRepository.findByCustomerId(c.getCustomerId(), 1,
 				PageRequest.of(0, 100, Sort.by(Sort.Direction.DESC, "order_id")));
 		model.addAttribute("orders1", listO1);
 
-		Page<Order> listO2 = orderRepository.findByCustomerId(c.get().getCustomerId(), 2,
+		Page<Order> listO2 = orderRepository.findByCustomerId(c.getCustomerId(), 2,
 				PageRequest.of(0, 100, Sort.by(Sort.Direction.DESC, "order_id")));
 		model.addAttribute("orders2", listO2);
 
-		Page<Order> listO3 = orderRepository.findByCustomerId(c.get().getCustomerId(), 3,
+		Page<Order> listO3 = orderRepository.findByCustomerId(c.getCustomerId(), 3,
 				PageRequest.of(0, 100, Sort.by(Sort.Direction.DESC, "order_id")));
 		model.addAttribute("orders3", listO3);
 
-		model.addAttribute("user", c.get());
+		model.addAttribute("user", c);
 		model.addAttribute("totalCartItems", shoppingCartService.getCount());
 		return new ModelAndView("/site/infomation", model);
 	}
@@ -359,8 +350,8 @@ public class CustomerSiteController {
 		o.setStatus((short) 0);
 		orderRepository.save(o);
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(
-				"<h3>Xin chào " + c.getName() + "!</h3>\r\n" + "    <h4>Bạn có 1 đơn hàng từ Team2Shop</h4>\r\n"
+		stringBuilder
+				.append("<h3>Xin chào " + c.getName() + "!</h3>\r\n" + "    <h4>Bạn có 1 đơn hàng từ Team2Shop</h4>\r\n"
 						+ "    <table style=\"border: 1px solid gray;\">\r\n"
 						+ "        <tr style=\"width: 100%; border: 1px solid gray;\">\r\n"
 						+ "            <th style=\"border: 1px solid gray;\">STT</th>\r\n"
@@ -370,14 +361,14 @@ public class CustomerSiteController {
 //		Set<OrderDetail> set = null;
 		for (CartItem i : listItem) {
 			Optional<Product> opt = productRepository.findById(i.getProductId());
-			if(opt.isPresent()) {
+			if (opt.isPresent()) {
 				Product p = opt.get();
 				OrderDetail od = new OrderDetail();
 				od.setQuantity(i.getQuantity());
 				od.setUnitPrice(i.getPrice());
 				od.setProduct(p);
 				od.setOrder(o);
-				orderDetailRepository.save(od);				
+				orderDetailRepository.save(od);
 			}
 		}
 
@@ -398,8 +389,8 @@ public class CustomerSiteController {
 		oReal.setStatus((short) 3);
 		orderRepository.save(oReal);
 
-		sendMailAction(oReal, "Bạn đã huỷ 1 đơn hàng từ Team2 Shop!",
-				"Chúng tôi rất tiếc vì không làm hài lòng bạn!", "Thông báo huỷ đơn hàng thành công!");
+		sendMailAction(oReal, "Bạn đã huỷ 1 đơn hàng từ Team2 Shop!", "Chúng tôi rất tiếc vì không làm hài lòng bạn!",
+				"Thông báo huỷ đơn hàng thành công!");
 
 		return new ModelAndView("forward:/customer/info");
 	}
@@ -414,9 +405,8 @@ public class CustomerSiteController {
 		model.addAttribute("isLogin", isLogin);
 
 		if (principal != null) {
-			Optional<Customer> c = customerRepository.FindByEmail(principal.getName());
-			Optional<UserRole> uRole = userRoleRepository.findByCustomerId(Long.valueOf(c.get().getCustomerId()));
-			if (uRole.get().getAppRole().getName().equals("ROLE_ADMIN")) {
+			Customer c = customerRepository.FindByEmail(principal.getName()).get();
+			if (c.getRole().toString().equals("Admin")) {
 				return new ModelAndView("forward:/admin/customers", model);
 			}
 		}
