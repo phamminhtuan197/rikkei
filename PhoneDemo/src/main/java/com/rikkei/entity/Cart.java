@@ -23,7 +23,7 @@ public class Cart implements Serializable{
 	private Double amount;
 	private String address;
 	private String phone;
-	private Boolean status;
+	private int status;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -61,11 +61,11 @@ public class Cart implements Serializable{
 		this.phone = phone;
 	}
 
-	public boolean getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -77,7 +77,7 @@ public class Cart implements Serializable{
 		this.user = user;
 	}
 
-	public Cart(long id, Double amount, String address, String phone, Boolean status, User user) {
+	public Cart(long id, Double amount, String address, String phone, int status, User user) {
 		super();
 		this.id = id;
 		this.amount = amount;

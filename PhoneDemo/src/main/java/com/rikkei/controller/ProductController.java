@@ -73,7 +73,7 @@ public class ProductController {
 			return ResponseEntity.notFound().build();
 		}
 		Product pro = repo.findById(id).get();
-		pro.setStatus(false);
+		pro.setStatus(0);
 		repo.save(pro);
 //		repo.deleteById(id);
 		return ResponseEntity.ok().build();

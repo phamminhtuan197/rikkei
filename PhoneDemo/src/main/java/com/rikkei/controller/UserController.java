@@ -57,7 +57,7 @@ public class UserController {
 			return ResponseEntity.badRequest().build();
 		}
 		User u =  repo.save(user);
-		Cart c = new Cart(0L, 0.0, user.getAddress(), user.getPhone(), true, u);
+		Cart c = new Cart(0L, 0.0, user.getAddress(), user.getPhone(), 1, u);
 		Crepo.save(c);
 		return ResponseEntity.ok(u);
 	}
@@ -80,7 +80,7 @@ public class UserController {
 		}
 //		Crepo.deleteByUserId(id);
 		User u = repo.findById(id).get();
-		u.setStatus(false);
+		u.setStatus(0);
 		repo.save(u);
 //		repo.deleteById(id);
 		return ResponseEntity.ok().build();

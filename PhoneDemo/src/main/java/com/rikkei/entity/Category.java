@@ -16,7 +16,7 @@ public class Category implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long categoryId;
 	private String categoryName;
-	private Boolean status;
+	private int status;
 	
 	public Long getCategoryId() {
 		return categoryId;
@@ -30,13 +30,13 @@ public class Category implements Serializable{
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-	public boolean getStatus() {
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(Boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
-	public Category(Long categoryId, String categoryName, Boolean status) {
+	public Category(Long categoryId, String categoryName, int status) {
 		super();
 		this.categoryId = categoryId;
 		this.categoryName = categoryName;

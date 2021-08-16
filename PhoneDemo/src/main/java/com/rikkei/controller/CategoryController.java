@@ -61,7 +61,7 @@ public class CategoryController {
 			return ResponseEntity.notFound().build();
 		}
 		Category ca = repo.findById(id).get();
-		ca.setStatus(false);
+		ca.setStatus(0);
 		repo.save(ca);
 //		repo.deleteById(id);
 		return ResponseEntity.ok().build();

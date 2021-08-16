@@ -26,7 +26,7 @@ public class Product implements Serializable{
 	private String image;
 	private String description;
 	private Date enteredDate;
-	private Boolean status;
+	private int status;
 	
 //	@OneToMany(mappedBy = "product")
 //	private List<Rate> rates;	
@@ -99,11 +99,11 @@ public class Product implements Serializable{
 		this.enteredDate = enteredDate;
 	}
 
-	public Boolean getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -116,7 +116,7 @@ public class Product implements Serializable{
 	}
 
 	public Product(Long productId, String name, int quantity, Double price, Double discount, String image,
-			String description, Date enteredDate, Boolean status, Category category) {
+			String description, Date enteredDate, int status, Category category) {
 		super();
 		this.productId = productId;
 		this.name = name;

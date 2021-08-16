@@ -23,7 +23,6 @@ public class ProductService implements IProductService{
 	@Override
 	public void createProduct(Product product) {
 		// TODO Auto-generated method stub
-		product.set
 	}
 
 	@Override
